@@ -14,12 +14,12 @@ class ListBookItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-          padding: const EdgeInsets.all(12),
-          margin: const EdgeInsets.only(bottom: 20, right: 20, left: 20),
+          padding: const EdgeInsets.all(4),
+          margin: const EdgeInsets.only(bottom: 12, right: 20, left: 20),
           decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(20)),
+              color: Colors.white, borderRadius: BorderRadius.circular(8)),
           width: double.infinity,
-          height: 104,
+          height: 88,
           child: Row(
             children: [
               Flexible(
@@ -28,36 +28,46 @@ class ListBookItem extends StatelessWidget {
                   width: 100,
                   height: 150,
                   boxFit: BoxFit.contain,
-                  imageUrl: "${bookResult?.formats.imageJpeg}",
+                  imageUrl: "${bookResult?.formats!.imageJpeg}",
                 ),
               )),
               Expanded(
-                  flex: 2,
+                  flex: 3,
                   child: Container(
+                    padding: const EdgeInsets.only(left: 8),
                     child: Column(
                       children: [
                         Expanded(
-                            flex: 2,
                             child: Container(
-                              padding: const EdgeInsets.all(4),
-                              width: double.infinity,
-                              child: Text(bookResult?.title ?? "Books Title",
-                                  style: blackTextStyle.copyWith(
-                                      fontSize: 14, fontWeight: bold),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2),
-                            )),
-                        Expanded(
+                                padding: const EdgeInsets.only(left: 4),
+                                width: double.infinity,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(bookResult?.title ?? "Books Title",
+                                        style: blackTextStyle.copyWith(
+                                            fontSize: 14, fontWeight: bold),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2),
+                                  ],
+                                ))),
+                        Flexible(
                             child: Container(
                           padding: const EdgeInsets.all(4),
                           alignment: Alignment.topLeft,
                           child: ListView.builder(
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
-                              itemCount: bookResult?.authors.length,
+                              itemCount: bookResult?.authors!.length,
                               itemBuilder: (BuildContext context, int index) {
-                                var author = bookResult?.authors[index];
-                                return Text(author?.name ?? "Author Name");
+                                var author = bookResult?.authors![index];
+                                return Row(
+                                  children: [
+                                    Text("By: "),
+                                    Text(author?.name ?? "Author Name")
+                                  ],
+                                );
                               }),
                         ))
                       ],

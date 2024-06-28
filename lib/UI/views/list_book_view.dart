@@ -82,7 +82,7 @@ class _ListBookViewState extends State<ListBookView> {
                           ),
                         );
                       } else if (state is GetBooksSuccess) {
-                        final filteredList = state.booksModel!.results
+                        final filteredList = state.booksModel!.results!
                             .where(
                               (book) => book.title!
                                   .toLowerCase()
@@ -98,7 +98,10 @@ class _ListBookViewState extends State<ListBookView> {
                                 Navigator.pushNamed(
                                   context,
                                   DetailBookView.routeName,
-                                  arguments: filteredList[index].id,
+                                  arguments: {
+                                    'booksId': filteredList[index].id,
+                                    'resultBook': filteredList[index]
+                                  },
                                 );
                               },
                               bookResult: filteredList[index],

@@ -20,17 +20,35 @@ class GetBooksSuccess extends BooksState {
   List<Object> get props => [booksModel!];
 }
 
-class GetBooksDetailSuccess extends BooksState {
-  final DetailBooksModel? detailBooksModel;
+class GetBooksFavoriteSuccess extends BooksState {
+  final List<Result>? bookResult;
 
-  GetBooksDetailSuccess(this.detailBooksModel);
+  GetBooksFavoriteSuccess(this.bookResult);
 
   @override
   // TODO: implement props
-  List<Object> get props => [detailBooksModel!];
+  List<Object> get props => [bookResult!];
+}
+
+class GetBooksDetailSuccess extends BooksState {
+  final DetailBooksModel? detailBooksModel;
+   final bool isBookmarked;
+
+  GetBooksDetailSuccess(this.detailBooksModel, this.isBookmarked);
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [detailBooksModel!, isBookmarked];
 }
 
 class BooksLoading extends BooksState {}
+
+class BookSuccess extends BooksState {
+  BookSuccess();
+
+  @override
+  List<Object> get props => [];
+}
 
 class BooksFailed extends BooksState {
   final String e;

@@ -28,17 +28,20 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  build_runner: ^2.4.11
   cupertino_icons: ^1.0.2
   equatable: ^2.0.5
+  fancy_shimmer_image: ^2.0.3
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
   google_fonts: ^6.2.0
   http: ^1.2.1
   intl: ^0.19.0
+  mockito: ^5.4.4
   shimmer: ^3.0.0
+  fluttertoast: ^8.2.6
   sqflite: ^2.3.3+1
-  fancy_shimmer_image: ^2.0.3
 
 dev_dependencies:
   flutter_lints: ^2.0.0
