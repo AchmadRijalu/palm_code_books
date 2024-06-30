@@ -19,14 +19,14 @@ class _HolderViewState extends State<HolderView> {
         icon: Icon(Icons.book),
         activeIcon: Icon(
           Icons.book,
-          color: primaryColor,
+          color: secondaryBlackColor,
         ),
         label: "Books"),
     BottomNavigationBarItem(
         icon: Icon(Icons.favorite),
         activeIcon: Icon(
           Icons.favorite,
-          color: primaryColor,
+          color: secondaryBlackColor,
         ),
         label: "Favorite"),
   ];
@@ -46,7 +46,7 @@ class _HolderViewState extends State<HolderView> {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: whiteColor,
         useLegacyColorScheme: true,
-        selectedItemColor: primaryColor,
+        selectedItemColor: secondaryBlackColor,
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
         currentIndex: currentIndex,

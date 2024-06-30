@@ -8,14 +8,17 @@ import 'package:palm_code_books/models/detail_book_model.dart';
 class BooksRepository {
   static const String _url = "https://gutendex.com/books/";
 
-  Future<BooksModel> getBooks() async {
+  Future<BooksModel> getBooks({String? url}) async {
     try {
-      final response = await http.get(
-        Uri.parse(_url),
-      );
-      return BooksModel.fromJson(json.decode(response.body));
+      final response = await http.get(Uri.parse(url ?? _url));
+      if (response.statusCode == 200) {
+        return BooksModel.fromJson(json.decode(response.body));
+      } else {
+        throw Exception('Failed to load data: ${response.statusCode}');
+      }
     } catch (e) {
-      throw Exception("Failed to load the data");
+
+      throw Exception('Failed to load data: $e');
     }
   }
 
@@ -26,7 +29,7 @@ class BooksRepository {
       );
       return DetailBooksModel.fromJson(json.decode(response.body));
     } catch (e) {
-      throw Exception("Failed to load the data");
+      throw Exception('Failed to load data: $e');
     }
   }
 }

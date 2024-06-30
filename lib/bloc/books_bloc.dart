@@ -11,15 +11,17 @@ part 'books_state.dart';
 
 class BooksBloc extends Bloc<BooksEvent, BooksState> {
   BooksBloc() : super(BooksInitial()) {
+
     on<BooksEvent>((event, emit) async {
       // TODO: implement event handler
 
       if (event is GetAllBooks) {
         emit(BooksLoading());
         try {
-          final books = await BooksRepository().getBooks();
-          emit(GetBooksSuccess(books));
-        } catch (e) {
+          final booksModel =
+              await BooksRepository().getBooks(url: event.nextUrl);
+          emit(GetBooksSuccess(booksModel));
+        } catch (e) { 
           emit(BooksFailed(e.toString()));
         }
       }
@@ -62,7 +64,6 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
           final books = await DatabaseHelper().removeBook(event.result!);
           final currentState = state as GetBooksDetailSuccess;
           emit(GetBooksDetailSuccess(currentState.detailBooksModel, false));
-          
         } catch (e) {
           emit(BooksFailed(e.toString()));
         }

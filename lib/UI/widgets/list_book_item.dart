@@ -24,12 +24,20 @@ class ListBookItem extends StatelessWidget {
             children: [
               Flexible(
                   child: Container(
-                child: FancyShimmerImage(
-                  width: 100,
-                  height: 150,
-                  boxFit: BoxFit.contain,
-                  imageUrl: "${bookResult?.formats!.imageJpeg}",
-                ),
+                child: bookResult?.formats?.imageJpeg == ""
+                    ? Image.network(
+                        "https://fastly.picsum.photos/id/870/200/300.jpg?blur=2&grayscale&hmac=ujRymp644uYVjdKJM7kyLDSsrqNSMVRPnGU99cKl6Vs" ??
+                            '',
+                        width: 100,
+                        height: 150,
+                        fit: BoxFit.contain,
+                      )
+                    : FancyShimmerImage(
+                        width: 100,
+                        height: 150,
+                        boxFit: BoxFit.contain,
+                        imageUrl: bookResult?.formats?.imageJpeg ?? '',
+                      ),
               )),
               Expanded(
                   flex: 3,
@@ -77,42 +85,4 @@ class ListBookItem extends StatelessWidget {
           )),
     );
   }
-
-  //   Card(
-  //       child: ListTile(
-  //     leading: Image.network(
-  //       "${bookResult?.formats.imageJpeg}",
-  //       fit: BoxFit.fitWidth,
-  //     ),
-  //     title: Text(bookResult?.title ?? "Books Title"),
-  //     subtitle: SizedBox(
-  //         height: 50,
-  //         child: Row(
-  //           children: [
-  //             Expanded(
-  //               child: ListView.builder(
-  //                   shrinkWrap: true,
-  //                   scrollDirection: Axis.horizontal,
-  //                   itemCount: bookResult?.authors.length,
-  //                   itemBuilder: (BuildContext context, int index) {
-  //                     var author = bookResult?.authors[index];
-  //                     return Text(author?.name ?? "Author Name");
-  //                   }),
-  //             ),
-  //           ],
-  //         )),
-  //     trailing: FittedBox(
-  //       fit: BoxFit.fill,
-  //       child: Row(
-  //         children: <Widget>[
-  //           Icon(
-  //             Icons.star_rate,
-  //             color: Colors.orange,
-  //           ),
-  //           Text("rating")
-  //         ],
-  //       ),
-  //     ),
-  //   ));
-  // }
 }

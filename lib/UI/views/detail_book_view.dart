@@ -55,13 +55,21 @@ class _DetailBookViewState extends State<DetailBookView> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              FancyShimmerImage(
-                                width: 100,
-                                height: 150,
-                                boxFit: BoxFit.cover,
-                                imageUrl:
-                                    "${state.detailBooksModel?.formats.imageJpeg}",
-                              ),
+                              state.detailBooksModel?.formats.imageJpeg == ""
+                                  ? Image.network(
+                                      "https://fastly.picsum.photos/id/870/200/300.jpg?blur=2&grayscale&hmac=ujRymp644uYVjdKJM7kyLDSsrqNSMVRPnGU99cKl6Vs" ??
+                                          '',
+                                      width: 100,
+                                      height: 150,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : FancyShimmerImage(
+                                      width: 100,
+                                      height: 150,
+                                      boxFit: BoxFit.cover,
+                                      imageUrl:
+                                          "${state.detailBooksModel?.formats.imageJpeg}",
+                                    ),
                               SizedBox(
                                 height: 12,
                               ),
@@ -109,11 +117,11 @@ class _DetailBookViewState extends State<DetailBookView> {
                                       radius: 20,
                                       child: state.isBookmarked
                                           ? IconButton(
-                                              onPressed: () async{
+                                              onPressed: () async {
                                                 context.read<BooksBloc>().add(
                                                     RemoveFavoriteBooks(
                                                         widget.resultBook?.id));
-},
+                                              },
                                               icon: Icon(Icons.favorite),
                                               color: Colors.red)
                                           : IconButton(
@@ -186,15 +194,19 @@ class _DetailBookViewState extends State<DetailBookView> {
                           ],
                         ),
                         ListView.builder(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: state.detailBooksModel!.subjects.length,
                           itemBuilder: (BuildContext context, int index) {
                             var subject =
                                 state.detailBooksModel?.subjects[index];
-                            return Text(
-                              subject ?? "Subject",
-                              style: blackTextStyle,
+                            return Container(
+                              padding: const EdgeInsets.all(4),
+                              child: Text(
+                                "- $subject" ?? "Subject",
+                                style: blackTextStyle,
+                              ),
                             );
                           },
                         ),
@@ -203,6 +215,12 @@ class _DetailBookViewState extends State<DetailBookView> {
                   )
                 ],
               ),
+            );
+          }
+
+          if (state is BooksFailed) {
+            return Center(
+              child: Text(state.e),
             );
           }
           return Container();

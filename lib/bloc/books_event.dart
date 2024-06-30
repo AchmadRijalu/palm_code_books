@@ -8,10 +8,15 @@ sealed class BooksEvent extends Equatable {
 }
 
 class GetAllBooks extends BooksEvent {
-  const GetAllBooks();
+  final String? nextUrl;
+
+  const GetAllBooks({this.nextUrl});
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [nextUrl!];
 }
+
+
 
 class GetAllBooksFavorite extends BooksEvent {
   const GetAllBooksFavorite();

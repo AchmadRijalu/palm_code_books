@@ -15,8 +15,7 @@ class FavoriteBookView extends StatefulWidget {
 }
 
 class _FavoriteBookViewState extends State<FavoriteBookView> {
-  String filterText = '';
-
+  String searchTitle = '';
   var _bloc = BooksBloc();
 
   @override
@@ -56,7 +55,7 @@ class _FavoriteBookViewState extends State<FavoriteBookView> {
                       placeholder: "Search Favorite Book",
                       onChanged: (value) {
                         setState(() {
-                          filterText = value.toLowerCase();
+                          searchTitle = value.toLowerCase();
                         });
                       },
                     ),
@@ -70,24 +69,31 @@ class _FavoriteBookViewState extends State<FavoriteBookView> {
                 child: BlocBuilder<BooksBloc, BooksState>(
                   builder: (context, state) {
                     if (state is GetBooksFavoriteSuccess) {
+                      final filteredList = state.bookResult!
+                            .where(
+                              (book) => book.title!
+                                  .toLowerCase()
+                                  .contains(searchTitle),
+                            )
+                            .toList();
                       return ListView.builder(
                         shrinkWrap: true,
-                        itemCount: state.bookResult?.length,
+                        itemCount: filteredList.length,
                         itemBuilder: (context, index) {
                           var bookResult = state.bookResult![index];
                           return ListBookItem(
                             onTap: () async {
-                             await Navigator.pushNamed(
+                              await Navigator.pushNamed(
                                 context,
                                 DetailBookView.routeName,
                                 arguments: {
-                                  'booksId': bookResult.id,
-                                  'resultBook': bookResult,
+                                  'booksId': filteredList[index].id,
+                                  'resultBook': filteredList[index],
                                 },
                               );
                               _bloc.add(GetAllBooksFavorite());
                             },
-                            bookResult: bookResult,
+                            bookResult: filteredList[index],
                           );
                         },
                       );

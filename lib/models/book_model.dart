@@ -65,22 +65,45 @@ class Result {
 
   String toRawJson() => json.encode(toJson());
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
-        id: json["id"],
-        title: json["title"],
-        authors:
-            List<Author>.from(json["authors"].map((x) => Author.fromJson(x))),
-        translators: List<Author>.from(
-            json["translators"].map((x) => Author.fromJson(x))),
-        subjects: List<String>.from(json["subjects"].map((x) => x)),
-        bookshelves: List<String>.from(json["bookshelves"].map((x) => x)),
-        languages: List<Language>.from(
-            json["languages"].map((x) => languageValues.map[x])),
-        copyright: json["copyright"],
-        mediaType: mediaTypeValues.map[json["media_type"]]!,
-        formats: Formats.fromJson(json["formats"]),
-        downloadCount: json["download_count"],
-      );
+  factory Result.fromJson(Map<String, dynamic> json) {
+    return Result(
+      id: json["id"] ?? 0,
+      title: json["title"] ?? '',
+      authors: json["authors"] != null
+          ? List<Author>.from(json["authors"].map((x) => Author.fromJson(x)))
+          : [],
+      translators: json["translators"] != null
+          ? List<Author>.from(
+              json["translators"].map((x) => Author.fromJson(x)))
+          : [],
+      subjects: json["subjects"] != null
+          ? List<String>.from(json["subjects"].map((x) => x))
+          : [],
+      bookshelves: json["bookshelves"] != null
+          ? List<String>.from(json["bookshelves"].map((x) => x))
+          : [],
+      languages: json["languages"] != null
+          ? List<Language>.from(json["languages"]
+              .map((x) => languageValues.map[x] ?? Language.EN))
+          : [],
+      copyright: json["copyright"] ?? false,
+      mediaType: json["media_type"] != null
+          ? mediaTypeValues.map[json["media_type"]] ?? MediaType.TEXT
+          : null,
+      formats: json["formats"] != null
+          ? Formats.fromJson(json["formats"])
+          : Formats(
+              textHtml: '',
+              applicationEpubZip: '',
+              applicationXMobipocketEbook: '',
+              applicationRdfXml: '',
+              imageJpeg: '',
+              textPlainCharsetUsAscii: '',
+              applicationOctetStream: '',
+            ),
+      downloadCount: json["download_count"] ?? 0,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -176,7 +199,7 @@ class Formats {
   String applicationEpubZip;
   String applicationXMobipocketEbook;
   String applicationRdfXml;
-  String imageJpeg;
+  String? imageJpeg;
   String textPlainCharsetUsAscii;
   String applicationOctetStream;
   String? textHtmlCharsetUtf8;
@@ -189,7 +212,7 @@ class Formats {
     required this.applicationEpubZip,
     required this.applicationXMobipocketEbook,
     required this.applicationRdfXml,
-    required this.imageJpeg,
+    this.imageJpeg,
     required this.textPlainCharsetUsAscii,
     required this.applicationOctetStream,
     this.textHtmlCharsetUtf8,
@@ -208,7 +231,7 @@ class Formats {
         applicationXMobipocketEbook:
             json["application/x-mobipocket-ebook"] ?? '',
         applicationRdfXml: json["application/rdf+xml"] ?? '',
-        imageJpeg: json["image/jpeg"] ?? '',
+        imageJpeg: json["image/jpeg"] != null ? json["image/jpeg"] : '',
         textPlainCharsetUsAscii: json["text/plain; charset=us-ascii"] ?? '',
         applicationOctetStream: json["application/octet-stream"] ?? '',
         textHtmlCharsetUtf8: json["text/html; charset=utf-8"],
