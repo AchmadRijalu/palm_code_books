@@ -31,7 +31,6 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
           final books = await DatabaseHelper().getBooks();
           emit(GetBooksFavoriteSuccess(books));
         } catch (e) {
-          print(e.toString());
           emit(BooksFailed(e.toString()));
         }
       }
@@ -54,7 +53,6 @@ class BooksBloc extends Bloc<BooksEvent, BooksState> {
           final currentState = state as GetBooksDetailSuccess;
           emit(GetBooksDetailSuccess(currentState.detailBooksModel, true));
         } catch (e) {
-          print(e.toString());
           emit(BooksFailed(e.toString()));
         }
       }
